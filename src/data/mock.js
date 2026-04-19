@@ -47,7 +47,7 @@ export const experience = [
     position: "Full Stack Developer",
     company: "Backride Pinas",
     type: "Remote",
-    duration: "August 2024 - Present",
+    duration: "August 2025 - February 2026",
     responsibilities: [
       "Co-developed BRP-Workforce, an employee login and records management system, handling both frontend (Angular) and backend code optimization",
       "Enhanced the admin panel certification console, improving efficiency in adding Gift certifications",
