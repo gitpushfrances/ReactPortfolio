@@ -88,7 +88,7 @@ export const projects = [
       "Role-based access control"
     ],
     category: "Web Application",
-    year: "2024"
+    year: "2025–2026"
   },
   {
     id: 2,
@@ -102,7 +102,7 @@ export const projects = [
       "Better user experience"
     ],
     category: "Performance Optimization",
-    year: "2024"
+    year: "2025–2026"
   },
   {
     id: 3,
@@ -131,6 +131,51 @@ export const projects = [
     ],
     category: "IoT Project",
     year: "2025"
+  },
+  {
+    id: 5,
+    title: "Municipal Resident Management System",
+    description: "Offline desktop application for municipal resident, household, and barangay record-keeping, packaged as a standalone Windows installer for a confidential client",
+    technologies: ["Laravel 10", "Livewire 3", "Electron", "SQLite", "Tailwind CSS"],
+    features: [
+      "Role-based workflow (Superadmin, MSWDO, Job Order) with barangay submission-and-approval pipeline",
+      "Bulk Excel import from the standard MSWD masterlist format, with a preview step before committing",
+      "PDF report generation — Barangay Summary, full Masterlist, and filtered Residents Report",
+      "Packaged as a standalone .exe — runs fully offline, no server or internet required"
+    ],
+    category: "Desktop Application",
+    year: "2026",
+    githubUrl: "https://github.com/gitpushfrances/municipal-system"
+  },
+  {
+    id: 6,
+    title: "COG-TOR Academic Grading Management System",
+    description: "Academic grading and records system generating official Certificate of Grades and Transcript of Records for a higher-education institution",
+    technologies: ["Laravel 10", "MySQL", "Blade", "Spatie Permission"],
+    features: [
+      "Multi-role grade submission and approval chain (Faculty → Head of Department → Registrar)",
+      "Automated GWA computation, semester and cumulative",
+      "COG/TOR PDF generation to CHED document standards",
+      "Full audit trail on all grade changes, plus database backup & restore via the admin UI"
+    ],
+    category: "Web Application",
+    year: "2026",
+    githubUrl: "https://github.com/gitpushfrances/cog-tor-system"
+  },
+  {
+    id: 7,
+    title: "Class Record Management System",
+    description: "Faculty class record and grading system built around the Philippine DepEd grading standard for educational institutions",
+    technologies: ["Laravel 10", "MySQL", "Blade", "Tailwind CSS"],
+    features: [
+      "Three-tier role system (Super Admin, Dean, Teacher) with centralized student master list",
+      "DepEd-style spreadsheet grade interface with automatic 1.00–5.00 grade-scale conversion",
+      "Excel export in official DepEd format, color-coded with computed averages",
+      "Subject approval workflow and a full audit trail on grade changes"
+    ],
+    category: "Web Application",
+    year: "2026",
+    githubUrl: "https://github.com/gitpushfrances/class-record-system"
   }
 ];
 
