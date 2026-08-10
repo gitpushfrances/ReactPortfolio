@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Code, Server, Smartphone, Wrench } from 'lucide-react';
 import { skills } from '../data/mock';
 import { getTechIcon } from '../lib/techIcons';
+import LogoLoop from './LogoLoop/LogoLoop';
 
 const Skills = () => {
   const skillCategories = [
@@ -11,16 +12,61 @@ const Skills = () => {
     { title: 'Tools & Others', icon: Wrench, skills: skills.tools }
   ];
 
+  const techLogos = useMemo(() => {
+    const allSkills = [
+      ...skills.frontend,
+      ...skills.backend,
+      ...skills.mobile,
+      ...skills.tools
+    ];
+    const seen = new Set();
+    const unique = [];
+    allSkills.forEach(skill => {
+      if (!seen.has(skill.name)) {
+        seen.add(skill.name);
+        unique.push(skill.name);
+      }
+    });
+    return unique.map(name => {
+      const Icon = getTechIcon(name);
+      return {
+        node: (
+          <span className="flex items-center gap-3 text-foreground">
+            <Icon size={36} />
+            <span className="font-mono text-base md:text-lg whitespace-nowrap">{name}</span>
+          </span>
+        ),
+        title: name,
+        ariaLabel: name
+      };
+    });
+  }, []);
+
   return (
     <section id="skills" className="py-20 bg-muted/30">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Skills & Technologies
           </h2>
           <div className="h-1 w-24 bg-foreground mx-auto"></div>
         </div>
+      </div>
 
+      <div className="mb-16 relative left-1/2 -translate-x-1/2 w-screen border-y border-border/50 bg-card/40 backdrop-blur-md shadow-lg overflow-hidden py-10">
+        <LogoLoop
+          logos={techLogos}
+          speed={70}
+          direction="left"
+          gap={64}
+          logoHeight={36}
+          pauseOnHover
+          fadeOut={false}
+          ariaLabel="Tech stack"
+        />
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-8">
           {skillCategories.map((category, index) => (
             <div

@@ -10,12 +10,14 @@ import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
 import TargetCursor from "./components/TargetCursor/TargetCursor";
+import CursorTrail from "./components/CursorTrail/CursorTrail";
 import { useTheme } from "./hooks/useTheme";
 
 function App() {
   const { theme } = useTheme();
   return (
     <div className="App">
+      <CursorTrail color={theme === "dark" ? "#ffffff" : "#000000"} />
       <TargetCursor
         spinDuration={2}
         hideDefaultCursor

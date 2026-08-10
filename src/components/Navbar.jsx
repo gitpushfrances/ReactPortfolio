@@ -58,7 +58,7 @@ const Navbar = () => {
               </button>
             ))}
             <button
-              onClick={toggleTheme}
+              onClick={(e) => toggleTheme(e)}
               aria-label="Toggle dark mode"
               className="p-2 transition-colors border rounded-full border-border hover:bg-accent"
             >

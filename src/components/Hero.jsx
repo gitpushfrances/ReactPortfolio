@@ -1,43 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react';
 import { personalInfo } from '../data/mock';
+import DecryptedText from './ui/DecryptedText';
+
+const NAME_SPEED = 40;
+const TITLE_SPEED = 30;
+const GAP_AFTER_NAME = 300;
+const GAP_AFTER_TITLE = 250;
 
 const Hero = () => {
-  const [typedName, setTypedName] = useState('');
-  const [typedTitle, setTypedTitle] = useState('');
-  const [phase, setPhase] = useState('name');
-  const [showCursor, setShowCursor] = useState(true);
+  const [showTitle, setShowTitle] = useState(false);
+  const [isDone, setIsDone] = useState(false);
 
   useEffect(() => {
-    if (phase === 'name' && typedName.length < personalInfo.name.length) {
-      const t = setTimeout(() => setTypedName(personalInfo.name.slice(0, typedName.length + 1)), 55);
-      return () => clearTimeout(t);
-    }
-    if (phase === 'name' && typedName.length === personalInfo.name.length) {
-      const t = setTimeout(() => setPhase('title'), 300);
-      return () => clearTimeout(t);
-    }
-    if (phase === 'title' && typedTitle.length < personalInfo.title.length) {
-      const t = setTimeout(() => setTypedTitle(personalInfo.title.slice(0, typedTitle.length + 1)), 35);
-      return () => clearTimeout(t);
-    }
-    if (phase === 'title' && typedTitle.length === personalInfo.title.length) {
-      const t = setTimeout(() => setPhase('done'), 250);
-      return () => clearTimeout(t);
-    }
-  }, [phase, typedName, typedTitle]);
+    const nameDuration = personalInfo.name.length * NAME_SPEED + GAP_AFTER_NAME;
+    const titleDuration = personalInfo.title.length * TITLE_SPEED + GAP_AFTER_TITLE;
 
-  useEffect(() => {
-    const blink = setInterval(() => setShowCursor((c) => !c), 500);
-    return () => clearInterval(blink);
+    const titleTimer = setTimeout(() => setShowTitle(true), nameDuration);
+    const doneTimer = setTimeout(() => setIsDone(true), nameDuration + titleDuration);
+
+    return () => {
+      clearTimeout(titleTimer);
+      clearTimeout(doneTimer);
+    };
   }, []);
 
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) element.scrollIntoView({ behavior: 'smooth' });
   };
-
-  const isDone = phase === 'done';
 
   return (
     <section
@@ -56,16 +47,28 @@ const Hero = () => {
               <span className="text-muted-foreground">:~$</span> whoami
             </p>
             <h1 className="font-mono text-5xl font-bold tracking-tight text-foreground md:text-7xl lg:text-8xl min-h-[1.2em]">
-              {typedName}
-              {phase === 'name' && showCursor && (
-                <span className="inline-block w-[0.5em] h-[0.9em] bg-foreground ml-1 align-middle" />
-              )}
+              <DecryptedText
+                text={personalInfo.name}
+                animateOn="view"
+                sequential
+                revealDirection="start"
+                speed={NAME_SPEED}
+                className="text-foreground"
+                encryptedClassName="text-muted-foreground/70"
+              />
             </h1>
             <div className="w-24 h-1 mx-auto bg-foreground"></div>
             <h2 className="font-mono text-2xl font-light text-muted-foreground md:text-3xl lg:text-4xl min-h-[1.2em]">
-              {typedTitle}
-              {phase === 'title' && showCursor && (
-                <span className="inline-block w-[0.4em] h-[0.7em] bg-muted-foreground ml-1 align-middle" />
+              {showTitle && (
+                <DecryptedText
+                  text={personalInfo.title}
+                  animateOn="view"
+                  sequential
+                  revealDirection="start"
+                  speed={TITLE_SPEED}
+                  className="text-muted-foreground"
+                  encryptedClassName="text-muted-foreground/50"
+                />
               )}
             </h2>
           </div>
@@ -85,13 +88,13 @@ const Hero = () => {
           >
             <button
               onClick={() => scrollToSection('projects')}
-              className="px-8 py-3 font-medium text-primary-foreground transition-all duration-300 transform bg-primary rounded-lg shadow-lg hover:opacity-90 hover:scale-105 hover:shadow-xl"
+              className="px-8 py-3 font-medium transition-all duration-300 transform rounded-lg shadow-lg text-primary-foreground bg-primary hover:opacity-90 hover:scale-105 hover:shadow-xl"
             >
               View My Work
             </button>
             <button
               onClick={() => scrollToSection('contact')}
-              className="px-8 py-3 font-medium text-foreground transition-all duration-300 transform bg-transparent border-2 border-foreground rounded-lg hover:bg-foreground hover:text-background hover:scale-105"
+              className="px-8 py-3 font-medium transition-all duration-300 transform bg-transparent border-2 rounded-lg text-foreground border-foreground hover:bg-foreground hover:text-background hover:scale-105"
             >
               Get In Touch
             </button>
@@ -103,15 +106,15 @@ const Hero = () => {
             }`}
           >
             <a href={personalInfo.github} target="_blank" rel="noopener noreferrer"
-              className="p-3 transition-all duration-300 bg-card border border-border rounded-full shadow-md hover:shadow-xl hover:scale-110">
+              className="p-3 transition-all duration-300 border rounded-full shadow-md bg-card border-border hover:shadow-xl hover:scale-110">
               <Github size={24} className="text-foreground" />
             </a>
             <a href={personalInfo.linkedin} target="_blank" rel="noopener noreferrer"
-              className="p-3 transition-all duration-300 bg-card border border-border rounded-full shadow-md hover:shadow-xl hover:scale-110">
+              className="p-3 transition-all duration-300 border rounded-full shadow-md bg-card border-border hover:shadow-xl hover:scale-110">
               <Linkedin size={24} className="text-foreground" />
             </a>
             <a href={`mailto:${personalInfo.email}`}
-              className="p-3 transition-all duration-300 bg-card border border-border rounded-full shadow-md hover:shadow-xl hover:scale-110">
+              className="p-3 transition-all duration-300 border rounded-full shadow-md bg-card border-border hover:shadow-xl hover:scale-110">
               <Mail size={24} className="text-foreground" />
             </a>
           </div>
