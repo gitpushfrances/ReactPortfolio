@@ -9,10 +9,20 @@ import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
+import TargetCursor from "./components/TargetCursor/TargetCursor";
+import { useTheme } from "./hooks/useTheme";
 
 function App() {
+  const { theme } = useTheme();
   return (
     <div className="App">
+      <TargetCursor
+        spinDuration={2}
+        hideDefaultCursor
+        parallaxOn
+        hoverDuration={0.2}
+        cursorColor={theme === "dark" ? "#ffffff" : "#000000"}
+      />
       <Navbar />
       <Hero />
       <About />

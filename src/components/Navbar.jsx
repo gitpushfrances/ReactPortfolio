@@ -38,30 +38,29 @@ const Navbar = () => {
           : 'bg-background/60 backdrop-blur-md'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="px-6 mx-auto max-w-7xl lg:px-8">
         <div className="flex items-center justify-between h-16">
           <button
             onClick={() => scrollToSection('home')}
-            className="text-xl font-bold text-foreground hover:text-muted-foreground transition-colors"
+            className="text-xl font-bold transition-colors text-foreground hover:text-muted-foreground"
           >
             JFE
           </button>
 
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="items-center hidden space-x-8 md:flex">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                className="text-sm font-medium text-foreground hover:text-muted-foreground transition-colors relative group"
+                className="relative text-sm font-medium transition-colors cursor-target text-foreground hover:text-muted-foreground group"
               >
                 {link.label}
-                <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-foreground transition-all duration-300 group-hover:w-full"></span>
               </button>
             ))}
             <button
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
-              className="p-2 rounded-full border border-border hover:bg-accent transition-colors"
+              className="p-2 transition-colors border rounded-full border-border hover:bg-accent"
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
@@ -71,13 +70,13 @@ const Navbar = () => {
             <button
               onClick={toggleTheme}
               aria-label="Toggle dark mode"
-              className="p-2 rounded-full border border-border hover:bg-accent transition-colors"
+              className="p-2 transition-colors border rounded-full border-border hover:bg-accent"
             >
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-foreground hover:text-muted-foreground transition-colors"
+              className="p-2 transition-colors text-foreground hover:text-muted-foreground"
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -85,12 +84,12 @@ const Navbar = () => {
         </div>
 
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 bg-background/95 backdrop-blur-lg rounded-lg mt-2 shadow-xl border border-border">
+          <div className="py-4 mt-2 border rounded-lg shadow-xl md:hidden bg-background/95 backdrop-blur-lg border-border">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollToSection(link.id)}
-                className="block w-full text-left px-6 py-3 text-sm font-medium text-foreground hover:bg-accent transition-colors"
+                className="block w-full px-6 py-3 text-sm font-medium text-left transition-colors text-foreground hover:bg-accent"
               >
                 {link.label}
               </button>
