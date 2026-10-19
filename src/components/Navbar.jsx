@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
+import { createPortal } from 'react-dom';
 import { useTheme } from '../hooks/useTheme';
+import StaggeredMenu from './StaggeredMenu/StaggeredMenu';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -82,21 +84,27 @@ const Navbar = () => {
             </button>
           </div>
         </div>
-
-        {isMobileMenuOpen && (
-          <div className="py-4 mt-2 border rounded-lg shadow-xl md:hidden bg-background/95 backdrop-blur-lg border-border">
-            {navLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => scrollToSection(link.id)}
-                className="block w-full px-6 py-3 text-sm font-medium text-left transition-colors text-foreground hover:bg-accent"
-              >
-                {link.label}
-              </button>
-            ))}
-          </div>
-        )}
       </div>
+
+      {createPortal(
+        <StaggeredMenu
+          position="right"
+          open={isMobileMenuOpen}
+          onRequestClose={() => setIsMobileMenuOpen(false)}
+          items={navLinks.map((link) => ({
+            label: link.label,
+            ariaLabel: `Go to ${link.label}`,
+            onClick: () => scrollToSection(link.id)
+          }))}
+          displaySocials={false}
+          displayItemNumbering
+          isFixed
+          className="md:hidden"
+          colors={['hsl(var(--secondary))', 'hsl(var(--background))']}
+          accentColor="hsl(var(--foreground))"
+        />,
+        document.body
+      )}
     </nav>
   );
 };
