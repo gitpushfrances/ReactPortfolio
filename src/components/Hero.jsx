@@ -17,11 +17,6 @@ const socials = [
   { label: 'email', href: `mailto:${personalInfo.email}` }
 ];
 
-const initials = personalInfo.name
-  .split(' ')
-  .map((part) => part[0])
-  .join('');
-
 const Hero = () => {
   const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
@@ -33,10 +28,12 @@ const Hero = () => {
       <div className="relative pt-14 pb-14 sm:pt-24">
         <div className="grid gap-8 sm:grid-cols-[10rem_1fr] sm:items-start sm:gap-10">
           <div className="w-28 sm:w-full reveal d1">
-            <div className="relative flex items-center justify-center overflow-hidden border aspect-square rounded-xl border-border halftone">
-              <span className="px-2 text-3xl leading-none font-pixel sm:text-4xl text-foreground bg-background">
-                {initials}
-              </span>
+            <div className="relative overflow-hidden border aspect-square rounded-xl border-border">
+              <img
+                src={`${process.env.PUBLIC_URL}${personalInfo.avatar}`}
+                alt={personalInfo.name}
+                className="object-cover w-full h-full"
+              />
             </div>
           </div>
 

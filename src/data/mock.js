@@ -5,6 +5,7 @@ export const personalInfo = {
   title: "Full Stack Developer",
   tagline: "Building scalable web solutions with modern technologies",
   location: "Philippines",
+  avatar: "/assets/pfp%20poly.jpg",
   phone: "+63 935 847 4023",
   email: "johnfrancesquiminaleseder@gmail.com",
   github: "https://github.com/johnfranceseder",
