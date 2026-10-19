@@ -2,10 +2,10 @@ import React from "react";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import About from "./components/About";
 import Skills from "./components/Skills";
 import Experience from "./components/Experience";
 import Projects from "./components/Projects";
+import Education from "./components/Education";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
@@ -26,13 +26,17 @@ function App() {
         cursorColor={theme === "dark" ? "#ffffff" : "#000000"}
       />
       <Navbar />
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Contact />
-      <Footer />
+      <main className="lg:pl-56">
+        <div className="max-w-2xl px-6 mx-auto">
+          <Hero />
+          <Projects />
+          <Experience />
+          <Skills />
+          <Education />
+          <Contact />
+          <Footer />
+        </div>
+      </main>
       <Toaster />
     </div>
   );

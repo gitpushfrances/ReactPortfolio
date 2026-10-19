@@ -1,78 +1,43 @@
-import React, { useMemo } from 'react';
-
+import React from 'react';
 import { skills } from '../data/mock';
 import { getTechIcon } from '../lib/techIcons';
-import LogoLoop from './LogoLoop/LogoLoop';
+import SectionHeading from './SectionHeading';
+
+const groups = [
+  { key: 'frontend', label: 'Frontend' },
+  { key: 'backend', label: 'Backend' },
+  { key: 'mobile', label: 'Mobile' },
+  { key: 'tools', label: 'Tools & IoT' }
+];
 
 const Skills = () => {
-
-
-  const buildLogos = (list) =>
-    list.map(({ name }) => {
-      const Icon = getTechIcon(name);
-      return {
-        node: (
-          <span className="flex items-center gap-3 px-5 py-3 border rounded-full bg-card/60 border-border/40 text-foreground">
-            <Icon size={44} />
-            <span className="font-mono text-lg md:text-xl whitespace-nowrap">{name}</span>
-          </span>
-        ),
-        title: name,
-        ariaLabel: name
-      };
-    });
-
-  const frontendLogos = useMemo(() => buildLogos(skills.frontend), []);
-  const backendLogos = useMemo(() => buildLogos(skills.backend), []);
-  const toolsLogos = useMemo(
-    () => buildLogos([...skills.mobile, ...skills.tools]),
-    []
-  );
-
   return (
-    <section id="skills" className="py-20 bg-muted/30">
-      <div className="px-6 mx-auto max-w-7xl lg:px-8">
-        <div className="mb-12 text-center">
-          <h2 className="mb-4 text-4xl font-bold md:text-5xl text-foreground">
-            Skills & Technologies
-          </h2>
-          <div className="w-24 h-1 mx-auto bg-foreground"></div>
-        </div>
-      </div>
+    <section id="skills" className="border-t py-14 border-border scroll-mt-14 lg:scroll-mt-0">
+      <SectionHeading index="03" title="stack" />
 
-      <div className="relative w-screen py-10 mb-16 space-y-8 overflow-hidden -translate-x-1/2 left-1/2">
-        <LogoLoop
-          logos={frontendLogos}
-          speed={70}
-          direction="left"
-          gap={64}
-          logoHeight={44}
-          pauseOnHover
-          fadeOut={false}
-          ariaLabel="Frontend stack"
-        />
-        <LogoLoop
-          logos={backendLogos}
-          speed={70}
-          direction="left"
-          gap={64}
-          logoHeight={44}
-          pauseOnHover
-          fadeOut={false}
-          ariaLabel="Backend stack"
-        />
-        <LogoLoop
-          logos={toolsLogos}
-          speed={70}
-          direction="right"
-          gap={64}
-          logoHeight={44}
-          pauseOnHover
-          fadeOut={false}
-          ariaLabel="Tools and mobile stack"
-        />
+      <div className="space-y-6">
+        {groups.map(({ key, label }) => (
+          <div key={key} className="grid gap-3 sm:grid-cols-[7rem_1fr] sm:items-baseline">
+            <h3 className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground/70">
+              {label}
+            </h3>
+            <div className="flex flex-wrap gap-1.5">
+              {skills[key].map(({ name }) => {
+                const Icon = getTechIcon(name);
+                return (
+                  <span
+                    key={name}
+                    className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background px-2.5 py-1 font-mono text-[12px] text-muted-foreground transition-colors hover:text-foreground hover:border-foreground/40"
+                  >
+                    <Icon size={12} />
+                    {name}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        ))}
       </div>
-
     </section>
   );
 };

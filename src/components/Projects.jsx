@@ -1,170 +1,112 @@
 import React, { useState } from 'react';
-import { FolderGit2, Calendar, Tag, ChevronRight, X, Github } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { projects } from '../data/mock';
 import { getTechIcon } from '../lib/techIcons';
+import SectionHeading from './SectionHeading';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from './ui/dialog';
 
 const Projects = () => {
   const [selectedProject, setSelectedProject] = useState(null);
 
   return (
-    <section id="projects" className="py-20 bg-muted/30">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Featured Projects
-          </h2>
-          <div className="h-1 w-24 bg-foreground mx-auto"></div>
-        </div>
+    <section id="projects" className="border-t py-14 border-border scroll-mt-14 lg:scroll-mt-0">
+      <SectionHeading index="01" title="projects">
+        <span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+          {projects.length} total
+        </span>
+      </SectionHeading>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {projects.map((project) => (
-            <div
-              key={project.id}
-              className="bg-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-border group cursor-pointer"
-              onClick={() => setSelectedProject(project)}
-            >
-              <div className="p-8">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="p-3 bg-accent rounded-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                    <FolderGit2 size={28} className="text-foreground" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold text-foreground mb-2 group-hover:text-muted-foreground transition-colors">
-                      {project.title}
-                    </h3>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                      <div className="flex items-center gap-1">
-                        <Tag size={14} />
-                        <span>{project.category}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Calendar size={14} />
-                        <span>{project.year}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="text-muted-foreground mb-6 leading-relaxed">
-                  {project.description}
-                </p>
-
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.technologies.map((tech, idx) => {
-                    const Icon = getTechIcon(tech);
-                    return (
-                      <span
-                        key={idx}
-                        className="flex items-center gap-1.5 px-3 py-1 bg-accent text-accent-foreground text-sm rounded-lg border border-border"
-                      >
-                        <Icon size={14} />
-                        {tech}
-                      </span>
-                    );
-                  })}
-                </div>
-
-                <button className="flex items-center gap-2 text-foreground font-medium hover:gap-3 transition-all duration-300">
-                  View Details
-                  <ChevronRight size={18} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {selectedProject && (
-          <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedProject(null)}
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {projects.map((project) => (
+          <button
+            key={project.id}
+            type="button"
+            onClick={() => setSelectedProject(project)}
+            className="flex flex-col text-left transition-colors border cursor-target group rounded-xl border-border p-3.5 hover:border-foreground/40"
           >
-            <div
-              className="bg-card rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-border"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="p-8">
-                <div className="flex items-start justify-between mb-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-accent rounded-lg">
-                      <FolderGit2 size={32} className="text-foreground" />
-                    </div>
-                    <div>
-                      <h3 className="text-3xl font-bold text-foreground mb-2">
-                        {selectedProject.title}
-                      </h3>
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <Tag size={14} />
-                          <span>{selectedProject.category}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Calendar size={14} />
-                          <span>{selectedProject.year}</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => setSelectedProject(null)}
-                    className="p-2 hover:bg-accent rounded-lg transition-colors"
-                  >
-                    <X size={24} className="text-muted-foreground" />
-                  </button>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-foreground mb-3">Description</h4>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {selectedProject.description}
-                  </p>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-foreground mb-3">Key Features</h4>
-                  <ul className="space-y-2">
-                    {selectedProject.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-muted-foreground">
-                        <ChevronRight size={20} className="text-foreground flex-shrink-0 mt-0.5" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-foreground mb-3">Technologies Used</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {selectedProject.technologies.map((tech, idx) => {
-                      const Icon = getTechIcon(tech);
-                      return (
-                        <span
-                          key={idx}
-                          className="flex items-center gap-1.5 px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:opacity-90 transition-opacity"
-                        >
-                          <Icon size={16} />
-                          {tech}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {selectedProject.githubUrl && (
-                  <a
-                    href={selectedProject.githubUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 border border-border rounded-lg text-foreground hover:bg-accent transition-colors font-medium"
-                  >
-                    <Github size={18} />
-                    View Repository
-                  </a>
-                )}
-              </div>
+            <div className="flex items-start justify-between w-full gap-2">
+              <span className="font-mono text-[9.5px] uppercase tracking-wider text-muted-foreground">
+                {project.category}
+              </span>
+              <ArrowUpRight
+                size={14}
+                className="transition-transform shrink-0 text-muted-foreground/60 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+              />
             </div>
-          </div>
-        )}
+            <h3 className="mt-2 text-[14px] font-medium leading-snug text-foreground">{project.title}</h3>
+            <p className="mt-1.5 text-[13px] leading-relaxed text-muted-foreground line-clamp-2">
+              {project.description}
+            </p>
+            <div className="flex items-center justify-between w-full gap-2 pt-3 mt-auto">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground/70 truncate">
+                {project.technologies.slice(0, 3).join(' · ')}
+              </span>
+              <span className="font-mono text-[10px] text-muted-foreground/70 shrink-0">{project.year}</span>
+            </div>
+          </button>
+        ))}
       </div>
+
+      <Dialog open={!!selectedProject} onOpenChange={(open) => !open && setSelectedProject(null)}>
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto w-[calc(100%-2rem)] rounded-xl">
+          {selectedProject && (
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                {selectedProject.category} · {selectedProject.year}
+              </p>
+              <DialogTitle className="mt-2 text-xl font-semibold leading-snug pr-6">
+                {selectedProject.title}
+              </DialogTitle>
+              <DialogDescription className="mt-3 text-[14px] leading-relaxed">
+                {selectedProject.description}
+              </DialogDescription>
+
+              <h4 className="mt-6 mb-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                Key features
+              </h4>
+              <ul className="space-y-2">
+                {selectedProject.features.map((feature, idx) => (
+                  <li key={idx} className="flex gap-3 text-[13.5px] leading-relaxed text-foreground">
+                    <span className="font-mono text-[11px] text-muted-foreground/70 pt-0.5">
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <h4 className="mt-6 mb-3 font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+                Stack
+              </h4>
+              <div className="flex flex-wrap gap-1.5">
+                {selectedProject.technologies.map((tech) => {
+                  const Icon = getTechIcon(tech);
+                  return (
+                    <span
+                      key={tech}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border px-2.5 py-1 font-mono text-[12px] text-muted-foreground"
+                    >
+                      <Icon size={12} />
+                      {tech}
+                    </span>
+                  );
+                })}
+              </div>
+
+              {selectedProject.githubUrl && (
+                <a
+                  href={selectedProject.githubUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cursor-target inline-flex items-center gap-1.5 mt-6 px-3 py-2 rounded-md bg-foreground text-background font-mono text-[11px] uppercase tracking-wider hover:opacity-90 transition-opacity"
+                >
+                  view repository <ArrowUpRight size={13} />
+                </a>
+              )}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };

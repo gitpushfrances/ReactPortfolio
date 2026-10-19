@@ -1,84 +1,79 @@
-import React from 'react';
-import { Briefcase, Calendar, MapPin, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { Plus } from 'lucide-react';
 import { experience } from '../data/mock';
-import { getTechIcon } from '../lib/techIcons';
+import SectionHeading from './SectionHeading';
+
+const startYear = (duration) => duration.match(/\d{4}/)?.[0] ?? '';
 
 const Experience = () => {
+  const [openId, setOpenId] = useState(experience[0]?.id ?? null);
+
   return (
-    <section id="experience" className="py-20 bg-background">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Work Experience
-          </h2>
-          <div className="h-1 w-24 bg-foreground mx-auto"></div>
-        </div>
+    <section id="experience" className="border-t py-14 border-border scroll-mt-14 lg:scroll-mt-0">
+      <SectionHeading index="02" title="experience">
+        <span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
+          {experience.length} roles
+        </span>
+      </SectionHeading>
 
-        <div className="space-y-8">
-          {experience.map((exp) => (
-            <div
-              key={exp.id}
-              className="bg-card rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-border group"
-            >
-              <div className="p-8">
-                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 bg-primary rounded-lg flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                      <Briefcase size={24} className="text-primary-foreground" />
-                    </div>
-                    <div>
-                      <h3 className="text-2xl font-bold text-foreground mb-2">
-                        {exp.position}
-                      </h3>
-                      <p className="text-lg text-muted-foreground font-medium">{exp.company}</p>
-                    </div>
-                  </div>
+      <div className="border-y divide-y divide-border border-border">
+        {experience.map((exp) => {
+          const isOpen = openId === exp.id;
+          return (
+            <div key={exp.id}>
+              <button
+                type="button"
+                onClick={() => setOpenId(isOpen ? null : exp.id)}
+                aria-expanded={isOpen}
+                className="grid items-baseline w-full grid-cols-12 gap-3 text-left transition-colors cursor-target py-2.5 hover:bg-muted/50"
+              >
+                <span className="col-span-2 font-mono text-[11px] text-muted-foreground/70">
+                  {startYear(exp.duration)}
+                </span>
+                <span className="col-span-9 sm:col-span-5 text-[14px] font-medium text-foreground">
+                  {exp.position}
+                </span>
+                <Plus
+                  size={13}
+                  className={`col-span-1 sm:order-last justify-self-end self-center text-muted-foreground transition-transform ${
+                    isOpen ? 'rotate-45' : ''
+                  }`}
+                />
+                <span className="col-span-10 col-start-3 sm:col-start-auto sm:col-span-4 text-[13px] text-muted-foreground sm:text-right">
+                  {exp.company}
+                </span>
+              </button>
 
-                  <div className="flex flex-col gap-2 md:text-right">
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Calendar size={18} />
-                      <span className="text-sm">{exp.duration}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <MapPin size={18} />
-                      <span className="text-sm">{exp.type}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-foreground mb-4">Key Responsibilities:</h4>
-                  <ul className="space-y-3">
-                    {exp.responsibilities.map((responsibility, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-muted-foreground">
-                        <ChevronRight size={20} className="text-foreground flex-shrink-0 mt-0.5" />
-                        <span>{responsibility}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="text-sm font-semibold text-muted-foreground mb-3">Technologies Used:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {exp.technologies.map((tech, idx) => {
-                      const Icon = getTechIcon(tech);
-                      return (
+              {isOpen && (
+                <div className="grid grid-cols-12 gap-3 pb-5">
+                  <div className="col-span-12 sm:col-span-10 sm:col-start-3">
+                    <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      {exp.duration} · {exp.type}
+                    </p>
+                    <ul className="mt-3 space-y-2">
+                      {exp.responsibilities.map((item, idx) => (
+                        <li key={idx} className="flex gap-2.5 text-[13.5px] leading-relaxed text-muted-foreground">
+                          <span aria-hidden="true" className="text-muted-foreground/50">—</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex flex-wrap gap-1.5 mt-4">
+                      {exp.technologies.map((tech) => (
                         <span
-                          key={idx}
-                          className="flex items-center gap-1.5 px-3 py-1 bg-primary text-primary-foreground text-sm rounded-full hover:opacity-90 transition-opacity"
+                          key={tech}
+                          className="rounded-md border border-border px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
                         >
-                          <Icon size={14} />
                           {tech}
                         </span>
-                      );
-                    })}
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
-          ))}
-        </div>
+          );
+        })}
       </div>
     </section>
   );
