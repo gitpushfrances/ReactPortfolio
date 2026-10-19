@@ -78,37 +78,17 @@ code {
         --chart-5: 340 75% 55%;
     }
 }
+/* Theme switch: a short compositor-only cross-fade of the page snapshots (see useTheme.js) */
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
-  z-index: 1;
-}
-
-::view-transition-new(root) {
-  z-index: 9999;
-}
-/* Let our custom clip-path wave be the only animation — kill the browser's default cross-fade */
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-::view-transition-old(root) {
-  z-index: 1;
-}
-::view-transition-new(root) {
-  z-index: 2;
+  animation-duration: 280ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 
 @layer base {
   * {
     @apply border-border;
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
     }
   body {
     @apply bg-background text-foreground;
