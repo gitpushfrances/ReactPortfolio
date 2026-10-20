@@ -6,6 +6,7 @@ export const personalInfo = {
   tagline: "Building scalable web solutions with modern technologies",
   location: "Philippines",
   avatar: "/assets/pfp%20poly.jpg",
+  avatarSprite: "/assets/head-sheet.webp", // 3x3 gaze frames: row = up/level/down, col = left/center/right
   phone: "+63 935 847 4023",
   email: "johnfrancesquiminaleseder@gmail.com",
   github: "https://github.com/johnfranceseder",

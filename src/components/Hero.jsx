@@ -2,6 +2,7 @@ import React from 'react';
 import { MapPin } from 'lucide-react';
 import { personalInfo, experience, projects, skills } from '../data/mock';
 import DecryptedText from './ui/DecryptedText';
+import GazeHead from './GazeHead';
 
 const techCount = Object.values(skills).reduce((sum, group) => sum + group.length, 0);
 
@@ -26,13 +27,13 @@ const Hero = () => {
   return (
     <section id="home">
       <div className="relative pt-14 pb-14 sm:pt-24">
-        <div className="grid gap-8 sm:grid-cols-[10rem_1fr] sm:items-start sm:gap-10">
-          <div className="w-28 sm:w-full reveal d1">
+        <div className="grid gap-8 sm:grid-cols-[12rem_1fr] sm:items-start sm:gap-10">
+          <div className="w-36 sm:w-full reveal d1">
             <div className="relative overflow-hidden border aspect-square rounded-xl border-border">
-              <img
-                src={`${process.env.PUBLIC_URL}${personalInfo.avatar}`}
+              <GazeHead
+                src={`${process.env.PUBLIC_URL}${personalInfo.avatarSprite}`}
                 alt={personalInfo.name}
-                className="object-cover w-full h-full"
+                className="w-full h-full"
               />
             </div>
           </div>
